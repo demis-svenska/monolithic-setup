@@ -18,12 +18,14 @@ terraform {
 }
 variable "interfacename" {
   type = string
-  default = "Enter the corresponding Interface Name, not the IP address"
+ # default = "Enter the corresponding Interface Name, not the IP address"
+  #default = ""\[Enter the corresponding Interface Name, not the IP address\]""
+  default = "\"[Enter the corresponding Interface Name, not the IP address]\""
   description = "eth0 will be used for setting by commcare-monolithic setup"
 }
 variable "douwantsetup" {
   type = string
-  default = "Do you want to have the CommCare Cloud environment setup on login"
+  default = "Do you want to have the CommCare Cloud environment setup on login?"
   description = " `yes` will be used for setting by commcare-monolithic setup"
 }
 
@@ -132,9 +134,9 @@ connection {
      "sed -i 's/env_name: \"\"/env_name: \"monolithic\"/' install-config.yml",
      "sed -i 's/server_inventory_name: \"\"/server_inventory_name: \"hqserver1\"/' install-config.yml",
      "sed -i 's/server_host_name: \"\"/server_host_name: \"monolithic.example.com\"/' install-config.yml",
-     "bash cchq-install.sh install-config.yml",
-     "expect -c 'spawn bash cchq-install.sh install-config.yml; expect ${var.douwantsetup}; send \"y\\r\"; interact'",
-     "expect -c 'spawn bash cchq-install.sh install-config.yml; expect ${var.interfacename}; send \"eth0\\r\"; interact'",
+     #"bash cchq-install.sh install-config.yml",
+     "expect -c 'spawn bash cchq-install.sh install-config.yml; expect ${var.douwantsetup}; send \"y\r\"; expect ${var.interfacename}; send \"eth0\\r\"';",
+     #"expect -c 'spawn bash cchq-install.sh install-config.yml; expect -timeout 5 "Do you want to have the CommCare Cloud environment setup on login?"; send "y\r"; expect -timeout 5 "\[Enter the corresponding Interface Name, not the IP address\]"; send "eth0\r";'"
      "set -e",
      "if bash cchq-install.sh install-config.yml; then",
      "  echo 'Installation completed successfully'",
