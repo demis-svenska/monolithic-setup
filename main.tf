@@ -113,11 +113,10 @@ connection {
     private_key = file("~/.ssh/id_rsa")
     host        = self.public_ip
   }
- 
- provisioner "remote-exec" {
-   when = destroy
-      inline  = ["echo ${self.private_ip}"]
- }
+
+ provisioner "local-exec" {
+    command = "echo ${self.public_ip} > instance_public_ip.txt"
+  }
  provisioner "remote-exec" {
     on_failure = continue
     inline = [
@@ -136,12 +135,12 @@ connection {
      "sed -i 's/server_host_name: \"\"/server_host_name: \"monolithic.example.com\"/' install-config.yml",
      #"bash cchq-install.sh install-config.yml",
      "expect -c 'spawn bash cchq-install.sh install-config.yml; expect ${var.douwantsetup}; send \"y\r\"; expect ${var.interfacename}; send \"eth0\\r\"';",
-     #"expect -c 'spawn bash cchq-install.sh install-config.yml; expect -timeout 5 "Do you want to have the CommCare Cloud environment setup on login?"; send "y\r"; expect -timeout 5 "\[Enter the corresponding Interface Name, not the IP address\]"; send "eth0\r";'"
+     #"expect -c 'spawn bash cchq-install.sh install-config.yml; expect "Do you want to have the CommCare Cloud environment setup on login?"; send "y\r"; expect "\[Enter the corresponding Interface Name, not the IP address\]"; send "eth0\r";'"
      "set -e",
      "if bash cchq-install.sh install-config.yml; then",
      "  echo 'Installation completed successfully'",
      "else",
-     "  echo 'Installation failed, running other-script.sh'",
+        "expect -c 'spawn bash cchq-install.sh install-config.yml; expect ${var.douwantsetup}; send \"y\r\"; expect ${var.interfacename}; send \"eth0\\r\"';",
      #"  bash other-script.sh",
      "fi"
     ]
