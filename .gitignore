@@ -1,4 +1,5 @@
 # Terraform files to ignore
+main.tf2
 **/.terraform/*
 *.terraform.lock.*
 terraform.tfstate
