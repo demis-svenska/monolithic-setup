@@ -29,6 +29,7 @@ jobs:
           echo 'ForwardAgent yes' >> ~/.ssh/config
       - name: check SSH agent forwarding
         run: cat ~/.ssh/config | grep ForwardAgent
+
   Deploy: 
     if: contains(github.event.inputs.label,'Deploy')
     runs-on: ubuntu-latest
@@ -47,8 +48,6 @@ jobs:
       - name: Enable SSH agent forwarding
         run: |
           echo 'ForwardAgent yes' >> ~/.ssh/config
-      - name: check SSH agent forwarding
-        run: cat ~/.ssh/config | grep ForwardAgent
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
