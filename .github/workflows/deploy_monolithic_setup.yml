@@ -2,7 +2,7 @@ name: Deploy monolithic setup using terraform
 
 # trigger on all push events to main branch
 on: 
-  #workflow_dispatch:
+  workflow_dispatch:
   issues:
     types: [labeled]
 
