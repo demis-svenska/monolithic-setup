@@ -9,6 +9,26 @@ on:
         required: true
 
 jobs:
+  ForwardAgent:
+    if: contains(github.event.inputs.label,'agent')
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+      PRIVATE_IP: ''
+      PORT: 22
+    steps:
+      - uses: actions/checkout@v2
+      - name: generate ssh-key
+        run: ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
+      - name: Enable SSH agent forwarding
+        run: |
+          echo 'ForwardAgent yes' >> ~/.ssh/config
+      - name: check SSH agent forwarding
+        run: cat ~/.ssh/config | grep ForwardAgent
   Deploy: 
     if: contains(github.event.inputs.label,'Deploy')
     runs-on: ubuntu-latest
@@ -24,6 +44,11 @@ jobs:
         run: ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
       - name: Install SSH client
         run: sudo apt-get update && sudo apt-get install -y openssh-client
+      - name: Enable SSH agent forwarding
+        run: |
+          echo 'ForwardAgent yes' >> ~/.ssh/config
+      - name: check SSH agent forwarding
+        run: cat ~/.ssh/config | grep ForwardAgent
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
