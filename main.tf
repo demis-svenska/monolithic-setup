@@ -170,8 +170,8 @@ connection {
      "echo '==========commcare-cloud monolithic deploy-stack=========='",
      "commcare-cloud monolithic deploy-stack --skip-check --skip-tags=users -e 'CCHQ_IS_FRESH_INSTALL=1' -c local --quiet",
      "commcare-cloud monolithic django-manage create_kafka_topics",
-     "commcare-cloud $env_name django-manage preindex_everything",
-     "commcare-cloud $env_name deploy" 
+     "commcare-cloud monolithic django-manage preindex_everything",
+     "commcare-cloud monolithic deploy" 
     ]
   } 
 } 
