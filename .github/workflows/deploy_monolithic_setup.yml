@@ -29,6 +29,10 @@ jobs:
           echo 'ForwardAgent yes' >> ~/.ssh/config
       - name: check SSH agent forwarding
         run: cat ~/.ssh/config | grep ForwardAgent
+      - name: disable StrictHostKeyChecking
+        run: echo "StrictHostKeyChecking no" >> ~/.ssh/config
+      - name: check StrictHostKeyChecking
+        run: cat ~/.ssh/config | grep StrictHostKeyChecking
 
   Deploy: 
     if: contains(github.event.inputs.label,'Deploy')
