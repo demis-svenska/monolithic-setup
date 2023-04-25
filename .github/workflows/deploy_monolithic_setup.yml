@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       label:
-        description: 'The label to specify which job to run'
+        description: 'The label to specify which job to run:(Deploy/Destroy)'
         required: true
 
 jobs:
