@@ -52,6 +52,8 @@ jobs:
       - name: Enable SSH agent forwarding
         run: |
           echo 'ForwardAgent yes' >> ~/.ssh/config
+      - name: disable StrictHostKeyChecking
+        run: echo "StrictHostKeyChecking no" >> ~/.ssh/config
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:

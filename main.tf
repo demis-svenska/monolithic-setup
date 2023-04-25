@@ -116,7 +116,7 @@ connection {
     user        = "ubuntu"
     private_key = file("~/.ssh/id_rsa")
     host        = self.public_ip
-    ssh_agent_enabled = true
+    #ssh_agent_enabled = true
   }
 
  provisioner "local-exec" {
