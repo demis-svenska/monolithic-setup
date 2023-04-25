@@ -3,12 +3,14 @@ name: Deploy monolithic setup using terraform
 # trigger on all push events to main branch
 on: 
   workflow_dispatch:
-  issues:
-    types: [labeled]
+    inputs:
+      label:
+        description: 'The label to specify which job to run'
+        required: true
 
 jobs:
   Deploy: 
-    if: contains(github.event.label.name, 'Deploy-monolithic')
+    if: contains(github.event.inputs.label,'Deploy-monolithic')
     #needs: terraform-destroy
     runs-on: ubuntu-latest
     env:
@@ -57,7 +59,7 @@ jobs:
       - name: display content of file
         run: cat /opt/publicip_output
   terraform-destroy:
-    if: contains(github.event.label.name, 'Destroy-monolithic')
+    if: contains(github.event.inputs.label, 'Destroy-monolithic')
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
