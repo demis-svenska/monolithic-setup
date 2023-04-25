@@ -10,7 +10,7 @@ on:
 
 jobs:
   Deploy: 
-    if: contains(github.event.inputs.label,'Deploy-monolithic')
+    if: contains(github.event.inputs.label,'Deploy')
     #needs: terraform-destroy
     runs-on: ubuntu-latest
     env:
@@ -59,7 +59,7 @@ jobs:
       - name: display content of file
         run: cat /opt/publicip_output
   terraform-destroy:
-    if: contains(github.event.inputs.label, 'Destroy-monolithic')
+    if: contains(github.event.inputs.label, 'Destroy')
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
