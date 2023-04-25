@@ -61,7 +61,7 @@ jobs:
           terraform apply -auto-approve   
       - name: Generate Terraform output
         run:  terraform output -raw public_ip | sed 's/::debug::Terraform exited with code 0.//g' > /opt/publicip_output
-      - name: display public Ip address
+      - name: DISPLAY PUBLIC IP ADDRESS
         run: cat /opt/publicip_output
       - name: Set output variable
         id: set_output
