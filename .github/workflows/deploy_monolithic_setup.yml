@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: generate ssh-key
         run: ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
