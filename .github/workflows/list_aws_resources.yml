@@ -17,13 +17,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: List Resources
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "=============number of resources deployed in us-west-2 region=================="
+          echo "number of buckets: $(aws s3 ls | wc -l)"
+          echo "number of ebs volumes: $(aws ec2 describe-volumes --region us-west-2 --query 'length(Volumes[])')"
+          echo "number of instances: $(aws ec2 describe-instances --region us-west-2 --query 'length(Reservations[].Instances[])')"
